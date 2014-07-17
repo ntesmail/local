@@ -1,0 +1,29 @@
+{
+  "name": "grunt-localserver",
+  "version": "1.0.0",
+  "description": "a local server for freemarker developer to quickly setup the front development environment",
+  "main": "lib/server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ntesmail/local"
+  },
+  "keywords": [
+    "freemarker",
+    "mock",
+    "local",
+    "server"
+  ],
+  "author": "wuzifang",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "3eb3828ce6719659fbda6ef72ff8d4133c2e8bf6",
+  "bugs": {
+    "url": "https://github.com/ntesmail/local/issues"
+  }
+}
