@@ -4,9 +4,7 @@ var http = require('http');
 var url = require('url');
 var fs = require('fs');
 var mapping = require('./mapping');
-
-var cmd;
-
+var pathUtil = require('path');
 // run
 function run(configFile, port) {
 
@@ -69,7 +67,8 @@ function run(configFile, port) {
                 console.log('outputFile:' + outputFile);
                 if (map.Config.Script) {
                     // console.log('exec ftl');
-                    var options = ["/c", "java", "-jar", "./jar/local-node-1.0.0.jar", configFile, fullPath, fullQuery];
+                    var jarPath = pathUtil.join(__dirname, "../../jar/local-node-1.0.0.jar");
+                    var options = ["/c", "java", "-jar", jarPath, configFile, fullPath, fullQuery];
                     exe(options, function() {
                         response(outputFile, map, res);
                     });
@@ -91,6 +90,8 @@ function run(configFile, port) {
             console.log('server started.');
         });
 
+        
+        // console.log('server started.');
     });
 }
 
@@ -124,7 +125,7 @@ function response(outputFile, map, res) {
 
 function exe(command, callback, error) {
     // windows下 
-    cmd = spawn("cmd", command);
+    var cmd = spawn("cmd", command);
     cmd.stdout.setEncoding("utf-8");
     cmd.stdout.on("data", function(data) {
         console.log(data);
