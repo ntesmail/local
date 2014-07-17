@@ -14,14 +14,14 @@ function run(configFile, port) {
     // './src/test/mock/project_config.cfg', 'http://l.mail.163.com/demo/test1.jsp']);
 
     // java -jar ./jar/local-1.0.0.jar ./demo/src/test/mock/project_config.cfg 8081
-    // if(typeof configFile !== 'string') {
-    //     console.error('config file should be existed');
-    //     return;
-    // }
-    // if(typeof port !== 'number') {
-    //     console.error('port should be given');
-    //     return;
-    // }
+    if(typeof configFile !== 'string') {
+        console.error('config file should be existed');
+        return;
+    }
+    if(typeof port !== 'number') {
+        console.error('port should be given');
+        return;
+    }
     // var cmd = 'java -jar ../deploy/local-1.0.0.jar ' + configFile + ' ' + port;
 
     // if(typeof cmd !== 'undefined') {
