@@ -1,4 +1,4 @@
-local
+grunt-localserver
 =====
 
 a powerful local develop server for freemarker developer
