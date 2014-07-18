@@ -1,6 +1,6 @@
 {
   "name": "grunt-localserver",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "a local server for freemarker developer to quickly setup the front development environment",
   "directories": {
     "test": "test"
@@ -10,12 +10,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ntesmail/local"
+    "url": "https://github.com/ntesmail/local.git"
   },
   "files": [
     "src",
     "jar",
     "tasks",
+    "Gruntfile.js",
     "LICENSE"
   ],
   "keywords": [

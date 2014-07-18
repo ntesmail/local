@@ -1,10 +1,3 @@
-local
-=====
-
-a powerful local develop server for freemarker developer
-
-Example:
-```js
 module.exports = function (grunt) {
   // config demo
   grunt.initConfig({
@@ -22,4 +15,3 @@ module.exports = function (grunt) {
   // task
   grunt.registerTask('default', ['localserver']);
 }
-```
