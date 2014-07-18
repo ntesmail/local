@@ -6,7 +6,7 @@ var fs = require('fs');
 var mapping = require('./mapping');
 var pathUtil = require('path');
 // run
-function run(configFile, port) {
+function run(configFile, port, callback) {
 
     // exe(["/c", "java","-jar","./jar/local-node-1.0.0.jar", 
     // './src/test/mock/project_config.cfg', 'http://l.mail.163.com/demo/test1.jsp']);
@@ -88,6 +88,7 @@ function run(configFile, port) {
 
         srv.listen(port, function() {
             console.log('server started.');
+            callback();
         });
 
         
@@ -103,21 +104,21 @@ function response(outputFile, map, res) {
         }
         var head = map.Config.Headers;
         var headMap = {
-            'Content-Type': 'text/plain'
         };
-        var headers = head.split("|");
-        for (var i = 0; i < headers.length; i++) {
-            var h = headers[i];
-            var firstIndex = h.indexOf(':');
-            if (firstIndex > 0 && firstIndex < h.length) {
-                var key = h.substring(0, firstIndex);
-                var val = h.substring(firstIndex + 1);
-                headMap[key] = val;
+        if(typeof head === 'string' && head.length > 0) {
+            var headers = head.split("|");
+            for (var i = 0; i < headers.length; i++) {
+                var h = headers[i];
+                var firstIndex = h.indexOf(':');
+                if (firstIndex > 0 && firstIndex < h.length) {
+                    var key = h.substring(0, firstIndex);
+                    var val = h.substring(firstIndex + 1);
+                    headMap[key] = val;
+                }
             }
         }
         res.writeHead(200, headMap);
         res.end(data);
-        // console.log('response end');
     });
 }
 

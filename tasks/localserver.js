@@ -4,6 +4,8 @@ module.exports = function(grunt) {
         var options = self.options({});
         self.async();
 
-        require('./lib/server').run(options.configFile, options.port);
+        require('./lib/server').run(options.configFile, options.port, function() {
+            grunt.event.emit('serverListening');
+        });
     });
 };

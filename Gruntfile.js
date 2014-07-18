@@ -10,8 +10,14 @@ module.exports = function (grunt) {
       
     }
   });
+
+  grunt.event.on('serverListening', function() {
+        // server started
+  });
   // load task localserver
   grunt.loadNpmTasks('grunt-localserver');
   // task
   grunt.registerTask('default', ['localserver']);
+
+
 }
