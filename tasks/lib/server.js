@@ -3,6 +3,7 @@ var spawn = require('child_process').spawn;
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
+var os = require('os');
 var mapping = require('./mapping');
 var pathUtil = require('path');
 // run
@@ -68,8 +69,17 @@ function run(configFile, port, callback) {
                 if (map.Config.Script) {
                     // console.log('exec ftl');
                     var jarPath = pathUtil.join(__dirname, "../../jar/local-node-1.0.0.jar");
-                    var options = ["/c", "java", "-jar", jarPath, configFile, fullPath, fullQuery];
-                    exe(options, function() {
+
+                    if(os.platform() === 'win32') {
+                        // windows
+                        var command = "cmd";
+                        var options = ["/c", "java", "-jar", jarPath, configFile, fullPath, fullQuery];
+                    } else {
+                        // mac linux
+                        var command = "java";
+                        var options = ["-jar", jarPath, configFile, fullPath, fullQuery];
+                    }
+                    exe(command, options, function() {
                         response(outputFile, map, res);
                     });
                 } else {
@@ -124,9 +134,8 @@ function response(outputFile, map, res) {
 
 
 
-function exe(command, callback, error) {
-    // windows下 
-    var cmd = spawn("cmd", command);
+function exe(command, options, callback, error) {
+    var cmd = spawn(command, options);
     cmd.stdout.setEncoding("utf-8");
     cmd.stdout.on("data", function(data) {
         console.log(data);
