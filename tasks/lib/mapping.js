@@ -1,3 +1,8 @@
+var pathUtil = require('path');
+var fs = require('fs');
+
+// 点号表示当前文件所在路径  
+var baseRealPath = fs.realpathSync('.');
 function mapping(config, fullPath, fullQuery) {
     var clonedConfig = JSON.parse(JSON.stringify(config));
     if (clonedConfig.Entries != null) {
@@ -15,7 +20,7 @@ function mapping(config, fullPath, fullQuery) {
                     var pattern2 = new RegExp(mqStr);
                     matcher2 = pattern2.exec(fullQuery);
                     if (!(matcher2 && matcher2.length > 0)) {
-                        console.log(fullQuery + " not matched: " + mqStr);
+                        // console.log(fullQuery + " not matched: " + mqStr);
                         continue;
                     }
                 }
@@ -23,11 +28,11 @@ function mapping(config, fullPath, fullQuery) {
                 var map = {};
                 map.BaseConfig = clonedConfig;
 
-                entry.SourceRoot = format(entry.SourceRoot, matcher, matcher2);
+                entry.SourceRoot = pathUtil.join(baseRealPath, format(entry.SourceRoot, matcher, matcher2));
                 entry.OutputFileName = format(entry.OutputFileName, matcher, matcher2);
                 entry.FtlFileName = format(entry.FtlFileName, matcher, matcher2);
                 entry.Data = format(entry.Data, matcher, matcher2);
-                entry.OutputRoot = format(entry.OutputRoot, matcher, matcher2);
+                entry.OutputRoot = pathUtil.join(baseRealPath, format(entry.OutputRoot, matcher, matcher2));
                 entry.HttpUrlRoot = format(entry.HttpUrlRoot, matcher, matcher2);
 
                 map.Config = entry;
@@ -43,7 +48,7 @@ function mapping(config, fullPath, fullQuery) {
 // 替换起来
 function format(content, matcher, matcher2) {
     if (content == null) {
-        return content;
+        return '';
     }
     if (matcher && matcher.length > 0) {
         for (var i = matcher.length; i > 0; i--) {
