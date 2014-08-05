@@ -15,8 +15,8 @@ function mapping(config, fullPath, fullQuery) {
                     var pattern2 = new RegExp(mqStr);
                     matcher2 = pattern2.exec(fullQuery);
                     if (!(matcher2 && matcher2.length > 0)) {
-                        console(fullQuery + " not matched: " + mqStr);
-                        return null;
+                        console.log(fullQuery + " not matched: " + mqStr);
+                        continue;
                     }
                 }
                 // 匹配到
