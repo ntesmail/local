@@ -106,6 +106,71 @@ function run(configFile, port, callback) {
     });
 }
 
+function ftl2html(configFile, fullPath) {
+    // java -jar ./jar/local-1.0.0.jar ./demo/src/test/mock/project_config.cfg 8081
+    if(typeof configFile !== 'string') {
+        console.error('config file should be existed');
+        return;
+    }
+    if(typeof fullPath !== 'string') {
+        console.error('fullPath should be given');
+        return;
+    }
+    // var cmd = 'java -jar ../deploy/local-1.0.0.jar ' + configFile + ' ' + port;
+
+    // if(typeof cmd !== 'undefined') {
+    //     console.error('already started');
+    //     return;
+    // }
+    fs.readFile(configFile, function(err, data) {
+        if (err) {
+            console.error('cannot read: ' + configFile);
+            throw err;
+        }
+        try {
+            var config = JSON.parse(data);
+        } catch (ex) {
+            console.error('JSON parse failed: ' + data);
+            throw ex;
+        }
+        var fullQuery = '';
+        // console.log('fullQuery:' + fullQuery);
+        var map = mapping(config, fullPath, fullQuery);
+        // console.log('map: ' + map);
+        if (map) {
+            var outputFile;
+            if (map.Config.OutputFileName && map.Config.OutputFileName.length > 0) {
+                outputFile = map.Config.OutputRoot + map.Config.OutputFileName;
+            } else {
+                var path = fullPath.substring(map.Config.HttpUrlRoot.length);
+                outputFile = map.Config.OutputRoot + path;
+            }
+            console.log('outputFile:' + outputFile);
+            if (map.Config.Script) {
+                // console.log('exec ftl');
+                var jarPath = pathUtil.join(__dirname, "../../jar/local-node-1.0.0.jar");
+
+                if(os.platform() === 'win32') {
+                    // windows
+                    var command = "cmd";
+                    var options = ["/c", "java", "-jar", jarPath, configFile, fullPath, fullQuery];
+                } else {
+                    // mac linux
+                    var command = "java";
+                    var options = ["-jar", jarPath, configFile, fullPath, fullQuery];
+                }
+                exe(command, options, function() {
+                    console.log('html generated');
+                });
+            } else {
+                console.log('ignore');
+            }
+        } else {
+            console.error('no mapping : ' + fullPath);
+        }
+    });
+}
+
 function response(outputFile, map, res) {
     fs.readFile(outputFile, function(err, data) {
         if (err) {
@@ -163,5 +228,6 @@ function stop() {
 }
 
 module.exports = {
-    run: run
+    run: run,
+    ftl2html : ftl2html
 };
