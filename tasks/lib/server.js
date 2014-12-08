@@ -97,7 +97,7 @@ function run(configFile, port, callback) {
         });
 
         srv.listen(port, function() {
-            console.log('server started.');
+            console.log('server started at port: ' + port);
             callback();
         });
 
