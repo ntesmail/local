@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-    grunt.registerTask('localserver', 'run local server', function(target) {
+    grunt.registerMultiTask('localserver', 'run local server', function(target) {
         var self = this;
         var options = self.options({});
         self.async();
@@ -8,7 +8,7 @@ module.exports = function(grunt) {
             grunt.event.emit('serverListening');
         });
     });
-    grunt.registerTask('ftl2html', 'run generator', function(target) {
+    grunt.registerMultiTask('ftl2html', 'run generator', function(target) {
         var self = this;
         self.async();
         var options = self.options({});
