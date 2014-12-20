@@ -80,10 +80,10 @@ function run(configFile, port, callback) {
                         var options = ["-jar", jarPath, configFile, fullPath, fullQuery];
                     }
                     exe(command, options, function() {
-                        response(outputFile, map, res);
+                        response(outputFile, map, res, fullQuery);
                     });
                 } else {
-                    response(outputFile, map, res);
+                    response(outputFile, map, res, fullQuery);
                 }
             } else {
                 res.writeHead(404, {
@@ -171,7 +171,19 @@ function ftl2html(configFile, fullPath) {
     });
 }
 
-function response(outputFile, map, res) {
+function convertQuery(query) {
+    var map = {};
+    var qs = query.split("&");
+    for (var i=0; i<qs.length; i++) {
+        var pair = qs[i].split("=");
+        if(pair.length > 1) {
+            map[pair[0]] = pair[1];
+        }
+    }
+    return map;
+}
+
+function response(outputFile, map, res, fullQuery) {
     fs.readFile(outputFile, function(err, data) {
         if (err) {
             console.error('cannot read: ' + outputFile);
@@ -193,7 +205,19 @@ function response(outputFile, map, res) {
             }
         }
         res.writeHead(200, headMap);
-        res.end(data);
+
+        // support query replacement
+        if(map.Config.SupportQuery && typeof fullQuery === 'string') {
+            var qs = convertQuery(fullQuery);
+            var content = data.toString('utf-8');
+            for (var key in qs) {
+                content = content.replace(new RegExp("%" +key+ "%", "g"), qs[key] );
+            };
+            
+            res.end(content);
+        } else {
+            res.end(data);
+        }
     });
 }
 
@@ -205,6 +229,7 @@ function exe(command, options, callback, error) {
     cmd.stdout.on("data", function(data) {
         console.log(data);
     });
+
 
     cmd.stderr.on("data", function(data) {
         console.log("stderr: " + data);
