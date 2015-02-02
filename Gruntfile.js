@@ -3,11 +3,12 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     localserver: {
+      dev : {
         options : {
             configFile : './src/test/mock/project_config.cfg',
             port : 8081
         }
-      
+      }
     }
   });
 
@@ -17,7 +18,7 @@ module.exports = function (grunt) {
   // load task localserver
   grunt.loadNpmTasks('grunt-localserver');
   // task
-  grunt.registerTask('default', ['localserver']);
+  grunt.registerTask('default', ['localserver:dev']);
 
 
 }

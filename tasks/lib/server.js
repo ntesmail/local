@@ -208,13 +208,17 @@ function response(outputFile, map, res, fullQuery) {
 
         // support query replacement
         if(map.Config.SupportQuery && typeof fullQuery === 'string') {
-            var qs = convertQuery(fullQuery);
-            var content = data.toString('utf-8');
-            for (var key in qs) {
-                content = content.replace(new RegExp("%" +key+ "%", "g"), qs[key] );
-            };
-            
-            res.end(content);
+            if(typeof data !== 'undefined') {
+                var qs = convertQuery(fullQuery);
+                var content = data.toString('utf-8');
+                for (var key in qs) {
+                    content = content.replace(new RegExp("%" +key+ "%", "g"), qs[key] );
+                };
+
+                res.end(content);
+            } else {
+                res.end(data);
+            }
         } else {
             res.end(data);
         }
