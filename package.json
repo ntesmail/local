@@ -1,6 +1,6 @@
 {
   "name": "grunt-localserver",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "a local server for freemarker developer to quickly setup the front development environment",
   "directories": {
     "test": "test"
