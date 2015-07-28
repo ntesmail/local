@@ -1,12 +1,18 @@
 {
   "name": "grunt-localserver",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "a local server for freemarker developer to quickly setup the front development environment",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/test.js"
+  },
+  "devDependencies": {
+    "grunt": "~0.4",
+    "grunt-contrib-watch": "latest",
+    "grunt-contrib-compass": "latest",
+    "load-grunt-tasks": "latest"
   },
   "repository": {
     "type": "git",

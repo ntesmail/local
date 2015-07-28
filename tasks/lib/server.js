@@ -13,20 +13,16 @@ function run(configFile, port, callback) {
     // './src/test/mock/project_config.cfg', 'http://l.mail.163.com/demo/test1.jsp']);
 
     // java -jar ./jar/local-1.0.0.jar ./demo/src/test/mock/project_config.cfg 8081
-    if(typeof configFile !== 'string') {
+    if (typeof configFile !== 'string') {
         console.error('config file should be existed');
         return;
     }
-    if(typeof port !== 'number') {
+    if (typeof port !== 'number') {
         console.error('port should be given');
         return;
     }
     // var cmd = 'java -jar ../deploy/local-1.0.0.jar ' + configFile + ' ' + port;
 
-    // if(typeof cmd !== 'undefined') {
-    //     console.error('already started');
-    //     return;
-    // }
     fs.readFile(configFile, function(err, data) {
         if (err) {
             console.error('cannot read: ' + configFile);
@@ -70,7 +66,7 @@ function run(configFile, port, callback) {
                     // console.log('exec ftl');
                     var jarPath = pathUtil.join(__dirname, "../../jar/local-node-1.0.0.jar");
 
-                    if(os.platform() === 'win32') {
+                    if (os.platform() === 'win32') {
                         // windows
                         var command = "cmd";
                         var options = ["/c", "java", "-jar", jarPath, configFile, fullPath, fullQuery];
@@ -101,27 +97,23 @@ function run(configFile, port, callback) {
             callback();
         });
 
-        
+
         // console.log('server started.');
     });
 }
 
 function ftl2html(configFile, fullPath) {
     // java -jar ./jar/local-1.0.0.jar ./demo/src/test/mock/project_config.cfg 8081
-    if(typeof configFile !== 'string') {
+    if (typeof configFile !== 'string') {
         console.error('config file should be existed');
         return;
     }
-    if(typeof fullPath !== 'string') {
+    if (typeof fullPath !== 'string') {
         console.error('fullPath should be given');
         return;
     }
-    // var cmd = 'java -jar ../deploy/local-1.0.0.jar ' + configFile + ' ' + port;
 
-    // if(typeof cmd !== 'undefined') {
-    //     console.error('already started');
-    //     return;
-    // }
+    // var cmd = 'java -jar ../deploy/local-1.0.0.jar ' + configFile + ' ' + port;
     fs.readFile(configFile, function(err, data) {
         if (err) {
             console.error('cannot read: ' + configFile);
@@ -150,7 +142,7 @@ function ftl2html(configFile, fullPath) {
                 // console.log('exec ftl');
                 var jarPath = pathUtil.join(__dirname, "../../jar/local-node-1.0.0.jar");
 
-                if(os.platform() === 'win32') {
+                if (os.platform() === 'win32') {
                     // windows
                     var command = "cmd";
                     var options = ["/c", "java", "-jar", jarPath, configFile, fullPath, fullQuery];
@@ -174,9 +166,9 @@ function ftl2html(configFile, fullPath) {
 function convertQuery(query) {
     var map = {};
     var qs = query.split("&");
-    for (var i=0; i<qs.length; i++) {
+    for (var i = 0; i < qs.length; i++) {
         var pair = qs[i].split("=");
-        if(pair.length > 1) {
+        if (pair.length > 1) {
             map[pair[0]] = pair[1];
         }
     }
@@ -190,9 +182,8 @@ function response(outputFile, map, res, fullQuery) {
             // throw err;
         }
         var head = map.Config.Headers;
-        var headMap = {
-        };
-        if(typeof head === 'string' && head.length > 0) {
+        var headMap = {};
+        if (typeof head === 'string' && head.length > 0) {
             var headers = head.split("|");
             for (var i = 0; i < headers.length; i++) {
                 var h = headers[i];
@@ -207,12 +198,12 @@ function response(outputFile, map, res, fullQuery) {
         res.writeHead(200, headMap);
 
         // support query replacement
-        if(map.Config.SupportQuery && typeof fullQuery === 'string') {
-            if(typeof data !== 'undefined') {
+        if (map.Config.SupportQuery && typeof fullQuery === 'string') {
+            if (typeof data !== 'undefined') {
                 var qs = convertQuery(fullQuery);
                 var content = data.toString('utf-8');
                 for (var key in qs) {
-                    content = content.replace(new RegExp("%" +key+ "%", "g"), qs[key] );
+                    content = content.replace(new RegExp("%" + key + "%", "g"), qs[key]);
                 };
 
                 res.end(content);
@@ -233,7 +224,6 @@ function exe(command, options, callback, error) {
     cmd.stdout.on("data", function(data) {
         console.log(data);
     });
-
 
     cmd.stderr.on("data", function(data) {
         console.log("stderr: " + data);
@@ -258,5 +248,5 @@ function stop() {
 
 module.exports = {
     run: run,
-    ftl2html : ftl2html
+    ftl2html: ftl2html
 };

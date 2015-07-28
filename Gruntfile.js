@@ -1,24 +1,64 @@
-module.exports = function (grunt) {
-  // config demo
-  grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    localserver: {
-      dev : {
-        options : {
-            configFile : './src/test/mock/project_config.cfg',
-            port : 8081
+module.exports = function(grunt) {
+    // load all tasks
+    require('load-grunt-tasks')(grunt);
+
+    grunt.initConfig({
+        // watch files
+        watch: {
+            compass: {
+                files: ['src/main/webapp/style/scss/**/{,*/}*.{scss,sass}'],
+                tasks: ['compass:server']
+            }
+        },
+
+        // Compiles Sass to CSS and generates necessary files if requested
+        compass: {
+            options: {
+                sassDir: 'src/main/webapp/style/scss',
+                cssDir: 'src/main/webapp/style/css',
+                relativeAssets: false,
+                assetCacheBuster: false,
+                raw: 'Sass::Script::Number.precision = 10\nEncoding.default_external = "utf-8"\n'
+            },
+            server: {
+                options: {
+                    sourcemap: true
+                }
+            }
+        },
+        // localserver config
+        localserver: {
+            // multiple task
+            dev: {
+                options: {
+                    // the config file
+                    configFile: 'src/test/mock/project_config.cfg',
+                    // the port
+                    port: 8081,
+                    // default is async, if used with [watch], it should be set to false
+                    async: false
+                }
+            }
+        },
+        ftl2html: {
+            test: {
+                options: {
+                    baseDir: '../../../',
+                    sourceRoot: 'src/main/webapp/WEB-INF',
+                    files: [{
+                        ftl: '/tmpl/main.ftl',
+                        tdd: 'src/test/mock/tdd/oglobal.tdd,src/test/mock/tdd/main.tdd'
+                    }, {
+                        ftl: '/tmpl/test1.ftl',
+                        tdd: 'src/test/mock/tdd/oglobal.tdd,src/test/mock/tdd/test1.tdd'
+                    }]
+                }
+            }
         }
-      }
-    }
-  });
+    });
+    // load dev localserver
+    grunt.loadTasks('tasks');
+    
+    grunt.registerTask('default', ['localserver:dev',  'watch']);
 
-  grunt.event.on('serverListening', function() {
-        // server started
-  });
-  // load task localserver
-  grunt.loadNpmTasks('grunt-localserver');
-  // task
-  grunt.registerTask('default', ['localserver:dev']);
-
-
-}
+};

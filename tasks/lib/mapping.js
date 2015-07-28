@@ -3,6 +3,7 @@ var fs = require('fs');
 
 // 点号表示当前文件所在路径  
 var baseRealPath = fs.realpathSync('.');
+
 function mapping(config, fullPath, fullQuery) {
     var clonedConfig = JSON.parse(JSON.stringify(config));
     if (clonedConfig.Entries != null) {
@@ -63,28 +64,5 @@ function format(content, matcher, matcher2) {
     return content;
 }
 
-/*
-function test() {
-    var fs = require('fs');
-    var configFile = 'E:/git/local/src/test/mock/project_config.cfg';
-    fs.readFile(configFile, function(err, data){
-        var config = JSON.parse(data);
-        var fullPath = 'http://l.mail.163.com/demo/main.jsp';
-        var fullQuery = null;
-        var map = mapping(config, fullPath, fullQuery);
-
-        console.log(map);
-
-        var fullPath = 'http://l.mail.163.com/demo/test1.jsp';
-        var fullQuery = null;
-        var map = mapping(config, fullPath, fullQuery);
-
-        console.log(map);
-
-        console.log(config)
-    });    
-}
-*/
 
 module.exports = mapping;
-// module.exports.test =  test;

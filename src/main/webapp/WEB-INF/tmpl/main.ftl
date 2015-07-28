@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Style-Type" content="text/css"/>
         <meta http-equiv="Content-Script-Type" content="text/javascript"/>
         <meta name="Author" content="netease"/>
-        <link type="text/css" href="../style/css/base.css" rel="stylesheet"/>
+        <link type="text/css" href="../style/css/style.css" rel="stylesheet"/>
         <script type="text/javascript" src="../js/jquery-1.8.3.js"></script>
     </head>
     <body>

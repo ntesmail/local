@@ -1,2 +1,4 @@
 /logs/
 *.log
+node_modules
+.sass-cache
